@@ -60,17 +60,54 @@ const registerUser = async (req,res) =>
 {
     try
     {
-        const { name, email, password, phone } = req.body;
+        let name = req.body.name?.trim();
+        let email = req.body.email?.trim();
+        let password = req.body.password?.trim();
+        let phone = req.body.phone?.trim();
 
-        // checking if the user already exists
-
-        const exists = await userModel.findOne({email});
-        if(exists)
+        if(!name || !email || !password || !phone)
         {
-            return res.json({success:false, message: "User Already Exists"});
+        return res.json({ success: false, message: "All fields are required" });
         }
 
+        if(/[A-Z]/.test(req.body.email))
+        {
+            return res.json({ success: false, message: "Email must be in lowercase only — no uppercase letters allowed" });
+        }
+
+        email = email.toLowerCase();
+
+        // check if email already exists
+        const emailExists = await userModel.findOne({ email });
+        if(emailExists)
+        {
+            return res.json({ success: false, message: "Email is already registered" });
+        }
+
+        // check if phone already exists
+        const phoneExists = await userModel.findOne({ phone });
+        if(phoneExists)
+        {
+            return res.json({ success: false, message: "Phone number is already registered" });
+        }
+
+
         // validation part
+
+        if (name.length < 3)
+        {
+            return res.json({ success: false, message: "Name must be at least 3 characters long" });
+        }
+
+        // Name must contain only letters, and exactly one space between two words (e.g. "John Doe")
+        if(!/^[A-Za-z]+(?: [A-Za-z]+)?$/.test(name))
+        {
+            return res.json({
+                success: false,
+                message: "Name must contain only letters with at most one space between first and last name"
+            });
+        }
+
 
         // validating email format and strong password
         if(!validator.isEmail(email))
@@ -98,6 +135,12 @@ const registerUser = async (req,res) =>
         {
             return res.json({ success: false, message: "Password must contain at least one number" });
         }
+
+        if(/\s/.test(password))
+        {
+            return res.json({ success: false, message: "Password must not contain any whitespace" });
+        }
+
 
         if(!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password))
         {

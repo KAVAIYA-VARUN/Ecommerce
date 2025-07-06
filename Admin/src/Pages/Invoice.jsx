@@ -4,12 +4,14 @@ import { toast } from 'react-toastify';
 import { backendUrl } from '../App.jsx';
 import BUYMELOGO4 from "../assets/BUYMELOGO4.png";
 import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Invoice = ({token}) => {
 
     const [invoiceData, setInvoiceData] = useState(null);
     const printRef = useRef();
     const shippingFee = 20;
+    const { orderId } = useParams();
 
     const handlePrint = () =>
     {
@@ -18,12 +20,13 @@ const Invoice = ({token}) => {
 
     useEffect(() =>
     {
+      console.log(orderId);
         const fetchInvoiceData = async () =>
         {
             try
             {
-                const res = await axios.get(`${backendUrl}/api/order/invoice-orders`, {headers: {token}});
-                if(!res.data || !res.data.orders || res.data.orders.length === 0)
+                const res = await axios.get(`${backendUrl}/api/order/invoice/${orderId}`, {headers: {token}});
+                if(!res.data || !res.data.order || res.data.order.length === 0)
                 {
                     toast.error("No Orders Found");
                     return;
@@ -37,19 +40,18 @@ const Invoice = ({token}) => {
             }
         }
 
-        if(token)
+        if(token && orderId)
         {
             fetchInvoiceData();
         }
-    },[token]);
+    },[token, orderId]);
 
     if(!invoiceData)
     {
         return <div className='p-10 text-center'>Loading invoice...</div>;
     }
 
-    const { user, orders } = invoiceData;
-    const latestOrder = orders[orders.length - 1];
+    const { user, order: latestOrder } = invoiceData;
 
   return (
     <>
@@ -70,7 +72,8 @@ const Invoice = ({token}) => {
           <h3 className="text-lg font-semibold mb-2">Customer Info</h3>
           <p>Name: {user?.name}</p>
           <p>
-            Address: {latestOrder?.address?.city}, {latestOrder?.address?.state},{' '}
+            Address: {latestOrder?.address?.street}, <br />
+            {latestOrder?.address?.city}, {latestOrder?.address?.state},{' '}
             {latestOrder?.address?.country} - {latestOrder?.address?.pincode}
           </p>
           <p>Email: {user?.email}</p>
@@ -83,13 +86,15 @@ const Invoice = ({token}) => {
           <div>
             <h3 className="text-lg font-semibold mb-2">Bill From:</h3>
             <p>BuyMe Pvt Ltd</p>
-            <p>Near Crystall Mall, Jamnagar - 361008</p>
+            <p>Near Crystall Mall,</p>
+            <p>Jamnagar - 361008</p>
             <p>+91 9408118601</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Bill To:</h3>
             <p>{user?.name}</p>
             <p>
+              {latestOrder?.address?.street}, <br />
               {latestOrder?.address?.city}, {latestOrder?.address?.state},{' '}
               {latestOrder?.address?.country} - {latestOrder?.address?.pincode}
             </p>

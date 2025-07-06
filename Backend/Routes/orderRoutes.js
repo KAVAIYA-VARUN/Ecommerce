@@ -1,5 +1,5 @@
 import express from "express";
-import { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, verifyStripe, getUserInvoiceOrders } from "../Controllers/orderControllers.js";
+import { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, verifyStripe, getInvoiceByOrderId } from "../Controllers/orderControllers.js";
 import adminAuth from "../Middleware/adminAuth.js";
 import authUser from "../Middleware/auth.js";
 
@@ -21,6 +21,6 @@ orderRouter.post("/userorders", authUser, userOrders);
 orderRouter.post("/verifyStripe", authUser, verifyStripe);
 
 // Invoice Feature
-orderRouter.get("/invoice-orders", adminAuth, getUserInvoiceOrders);
+orderRouter.get("/invoice/:orderId", adminAuth, getInvoiceByOrderId);
 
 export default orderRouter;

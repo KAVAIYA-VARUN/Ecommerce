@@ -309,11 +309,39 @@ const updateStatus = async (req,res) =>
     {
         const { orderId, status } = req.body;
 
+        const statusFlow =
+        [
+            "Order Placed",
+            "Packing",
+            "Shipped",
+            "Out For Delivery",
+            "Delivered"
+        ];
+
         const order = await orderModel.findByIdAndUpdate(orderId, { status });
 
         if(!order)
         {
             return res.json({success: false, message: "Order Not found"});
+        }
+
+        const currentIndex = statusFlow.indexOf(order.status);
+        const requestedIndex = statusFlow.indexOf(status);
+
+        // Check for invalid transitions
+        if(requestedIndex === -1)
+        {
+            return res.json({ success: false, message: "Invalid status" });
+        }
+
+        if(requestedIndex < currentIndex)
+        {
+            return res.json({ success: false, message: "Cannot move to a previous status" });
+        }
+
+        if(requestedIndex > currentIndex + 1)
+        {
+            return res.json({ success: false, message: "Cannot skip status steps" });
         }
 
         order.status = status;
@@ -334,30 +362,32 @@ const updateStatus = async (req,res) =>
     }
 }
 
-const getUserInvoiceOrders = async (req,res) =>
+const getInvoiceByOrderId = async (req, res) =>
 {
     try
     {
-        const latestOrder = await orderModel.findOne().sort({date: -1});
+        const { orderId } = req.params;
 
-        if(!latestOrder)
+        const order = await orderModel.findById(orderId);
+        if (!order)
         {
-            return res.json({success: false, message: "No Orders Found"});
+            return res.status(404).json({ success: false, message: "Order not found" });
         }
 
-        const user = await userModel.findById(latestOrder.userId).select("name email phone");
-        if(!user)
+        const user = await userModel.findById(order.userId).select("name email phone");
+        if (!user)
         {
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        res.status(200).json({ success: true, user, orders: [latestOrder] });
+        res.status(200).json({ success: true, user, order });
     }
-    catch(error)
+    catch (error)
     {
         console.log(error);
-        res.json({success: false, message: error.message});
+        res.status(500).json({ success: false, message: "Failed to fetch invoice data" });
     }
 }
 
-export { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, verifyStripe, getUserInvoiceOrders }
+
+export { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, verifyStripe, getInvoiceByOrderId }

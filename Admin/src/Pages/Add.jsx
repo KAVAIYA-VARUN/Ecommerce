@@ -14,8 +14,8 @@ const Add = ({token}) => {
   const [name,setName] = useState("");
   const [description,setDescription] = useState("");
   const [price,setPrice] = useState("");
-  const [category,setCategory] = useState("Men");
-  const [subCategory, setSubCategory] = useState("Clothing");
+  const [category,setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [bestseller,setBestseller] = useState(false);
   const [sizes,setSizes] = useState([]);
   const [note,setNote] = useState("");
@@ -112,20 +112,39 @@ const Add = ({token}) => {
     <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
       <div>
         <p className='mb-2'>Product Category</p>
-        <select onChange={(e) => setCategory(e.target.value)} className='w-full px-3 py-2'>
-          <option value="Men">Men</option>
-          <option value="Women">Women</option>
-          <option value="Kids">Kids</option>
+        <select onChange={(e) => setCategory(e.target.value)} value={category} className='w-full px-3 py-2' required>
+          <option value="" disabled>Select Category</option>
+          {["Men", "Women", "Kids"].map((cat) => (
+            <option
+              key={cat}
+              value={cat}
+              style={{
+                backgroundColor: category === cat ? "#000" : "#fff",
+                color: category === cat ? "#fff" : "#000",
+              }}
+            >
+              {cat}
+            </option>
+          ))}
         </select>
       </div>
 
       <div>
         <p className='mb-2'>Sub Category</p>
-        <select onChange={(e) => setSubCategory(e.target.value)} className='w-full px-3 py-2'>
-          <option value="Clothing">Clothing</option>
-          <option value="Shoes">Shoes</option>
-          <option value="Watches">Watches</option>
-          <option value="Jewellery">Jewellery</option>
+        <select onChange={(e) => setSubCategory(e.target.value)} value={subCategory} className='w-full px-3 py-2' required>
+          <option value="" disabled>Select Sub Category</option>
+          {["Clothing", "Shoes", "Watches", "Jewellery"].map((sub) => (
+            <option
+              key={sub}
+              value={sub}
+              style={{
+                backgroundColor: subCategory === sub ? "#000" : "#fff",
+                color: subCategory === sub ? "#fff" : "#000",
+              }}
+            >
+              {sub}
+            </option>
+          ))}
         </select>
       </div>
 

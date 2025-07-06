@@ -122,7 +122,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address
                     {user.address && user.address.length > 0 ? (
                       <>
                         <select
@@ -132,7 +132,7 @@ const Profile = () => {
                             setSelectedAddressIndex(index);
                             localStorage.setItem("selectedAddressIndex", index);
                           }}
-                          className="border border-gray-300 rounded py-2 px-3 mb-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
+                          className="border border-gray-300 ml-4 rounded py-2 px-3 mb-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
                         >
                           <option value={-1} disabled>Select Address</option>
                           {user.address.map((addr, index) => (
@@ -152,7 +152,7 @@ const Profile = () => {
                       </>
                     ) : (
                       <p className="text-gray-500 dark:text-gray-400">No address added yet.</p>
-                    )}
+                    )}</label>
                   </div>
 
                   <div>

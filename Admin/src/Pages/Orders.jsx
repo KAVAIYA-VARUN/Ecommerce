@@ -137,11 +137,19 @@ const Orders = ({token}) => {
               </div>
               <p className='text-sm sm:text-[15px]'>{currency}{order.amount}</p>
               <select onChange={(e) => statusHandler(e,order._id)} value={order.status} className='p-2 font-semibold'>
-                <option value="Order Placed">Order Placed</option>
-                <option value="Packing">Packing</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Out For Delivery">Out For Delivery</option>
-                <option value="Delivered">Delivered</option>
+                {["Order Placed", "Packing", "Shipped", "Out For Delivery", "Delivered"].map((statusOption, index) => {
+                  const currentIndex = ["Order Placed", "Packing", "Shipped", "Out For Delivery", "Delivered"].indexOf(order.status);
+
+                  return (
+                    <option
+                      key={statusOption}
+                      value={statusOption}
+                      disabled={index < currentIndex || index > currentIndex + 1}
+                    >
+                      {statusOption}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           ))

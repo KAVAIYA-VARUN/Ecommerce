@@ -24,8 +24,7 @@ const ShopContextProvider = (props) =>
     {
         if(!size)
         {
-            toast.error("Select Product Size");
-            return;
+            return { success: false, message: "Select Product Size" };
         }
 
         // getting the latest product data before adding to the cart
@@ -34,8 +33,7 @@ const ShopContextProvider = (props) =>
 
         if(product.stock <= 0)
         {
-            toast.error("Item is out of stock");
-            return;
+            return { success: false, message: "Item is out of stock" };
         }
 
         let cartData = structuredClone(cartItems);
@@ -64,11 +62,12 @@ const ShopContextProvider = (props) =>
             try
             {
                 await axios.post(`${backendUrl}/api/cart/add`,{itemId, size}, {headers: {token}});
+                return { success: true, message: "Product Added to Cart" };
             }
             catch(error)
             {
                 console.log(error);
-                toast.error(error.message);
+                return { success: false, message: error.message };
             }
         }
     }

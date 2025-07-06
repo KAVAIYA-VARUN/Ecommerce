@@ -168,7 +168,7 @@ const Dashboard = ({ token }) =>
                       {new Date(order.date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
-                      <Link to="/invoice-orders">
+                      <Link to={`/invoice-orders/${order._id}`}>
                       <button className="bg-green-600 p-1 rounded-lg text-gray-800 font-semibold">Generate</button>
                       </Link>
                     </td>

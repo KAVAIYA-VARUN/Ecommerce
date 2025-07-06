@@ -95,7 +95,30 @@ const Cart = () => {
                 </div>
               </div>
 
-              <input onChange={(e) => e.target.value === '' || e.target.value === '0' ? null : updateQuantity(item._id, item.size, Number(e.target.value))} type="number" min={1} defaultValue={item.quantity} className='border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 bg-gray-300' />
+              {/* <input onChange={(e) => e.target.value === '' || e.target.value === '0' ? null : updateQuantity(item._id, item.size, Number(e.target.value))} type="number" min={1} defaultValue={item.quantity} className='border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 bg-gray-300' /> */}
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if(item.quantity > 1)
+                    {
+                      updateQuantity(item._id, item.size, item.quantity - 1);
+                    }
+                  }}
+                  className="px-2 py-0 bg-gray-300 text-lg font-bold rounded"
+                >
+                  −
+                </button>
+                <span className="px-4 py-2 bg-gray-300 border rounded">{item.quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item._id, item.size, item.quantity + 1)}
+                  className="px-2 py-0 bg-gray-300 text-lg font-bold rounded"
+                >
+                  +
+                </button>
+              </div>
+
+
               <img onClick={() => updateQuantity(item._id, item.size, 0)} src={Assets.bin_icon} className='w-4 mr-4 sm:w-5 cursor-pointer navbar-icon' alt="" />
             </div>
           )

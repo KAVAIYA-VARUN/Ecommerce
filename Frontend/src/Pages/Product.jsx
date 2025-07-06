@@ -106,7 +106,7 @@ const Product = () => {
             }
           </div>
         </div>
-        <button onClick={() =>
+        <button onClick={async () =>
           {
             if(!size)
             {
@@ -126,8 +126,16 @@ const Product = () => {
               return;
             }
 
-            addToCart(productData._id, size);
-            toast.success("Product Added to Cart");
+            const result = await addToCart(productData._id, size);
+
+            if(result.success)
+            {
+              toast.success(result.message);
+            }
+            else
+            {
+              toast.error(result.message);
+            }
           }
         }
         className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button>
