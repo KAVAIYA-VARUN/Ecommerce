@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*
+{
+  font-family: Outfit;
+}
+
+body
+{
+  background: #F5E8DF;
+}
+
+.active
+{
+  background-color: #FCD8CD;
+  border-color: black;
+}
+
+select, input, textarea
+{
+  border: 1px solid black;
+  outline-color: gray;
+  border-radius: 4px;
+  background-color: #D1D5DB;
+  color: black;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #invoice, #invoice * {
+    visibility: visible;
+  }
+
+  #invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
