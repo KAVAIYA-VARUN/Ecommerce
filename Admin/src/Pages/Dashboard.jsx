@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   Package,
   ShoppingCart,
-  DollarSign,
   Clock,
 } from "lucide-react";
 import { backendUrl } from "../App"; // Adjust path if needed
@@ -37,7 +36,7 @@ const Dashboard = ({ token }) =>
     {
       title: "Total Revenue",
       value: `₹${stats.totalRevenue.toLocaleString()}`,
-      icon: DollarSign,
+      icon: () => <span className="text-white text-3xl font-bold">₹</span>,  // change this to rupee symbol
       color: "bg-purple-500",
     },
     {
