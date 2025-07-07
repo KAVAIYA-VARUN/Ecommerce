@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import PlaceOrder from "./Pages/PlaceOrder.jsx";
 import Verify from "./Pages/Verify.jsx";
 import Address from "./Pages/Address.jsx";
+import ScrollToTop from "./Components/ScrollToTop.jsx";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
     <ToastContainer />
     <Navbar />
     <SearchBar />
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/collection" element={<Collection />} />
