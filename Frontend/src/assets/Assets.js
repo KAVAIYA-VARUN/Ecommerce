@@ -92,7 +92,7 @@ import BUYMELOGO3 from './BUYMELOGO3.png'
 import BUYMELOGO4 from './BUYMELOGO4.png'
 import MensFashion from './MensFashion.png'
 import WomensFashion from './WomensFashion.png'
-import KidsFashion from './KidsFashion.png'
+import kidsFashion from './kidsFashion.png'
 import cart_icon from './cart_icon.png'
 import bin_icon from './bin_icon.png'
 import dropdown_icon from './dropdown_icon.png'
@@ -121,7 +121,7 @@ export const Assets =
     BUYMELOGO4,
     MensFashion,
     WomensFashion,
-    KidsFashion,
+    kidsFashion,
     cart_icon,
     dropdown_icon,
     exchange_icon,
