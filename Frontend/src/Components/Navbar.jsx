@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
    <>
-   <div className="sticky top-0 z-50 bg-[#F5E8DF] dark:bg-[#262424] shadow-sm">
+   <div className="sticky top-0 z-50 bg-[#F5E8DF] dark:bg-[#262424]">
    <div className="flex items-center justify-between p-0 font-medium">
 
     <Link to="/"><img src={Assets.BUYMELOGO4} className="w-40" alt="About " /></Link>
