@@ -23,6 +23,17 @@ const addProduct = async(req,res) =>
             })
         )
 
+        let parsedSizes;
+        try
+        {
+            parsedSizes = JSON.parse(sizes);
+        }
+        catch(error)
+        {
+            // This sends a specific error if the 'sizes' string is not valid JSON
+            return res.status(400).json({ success: false, message: "Invalid format for sizes. Expected a valid JSON array string." });
+        }
+
         const productData =
         {
             name,
@@ -31,7 +42,7 @@ const addProduct = async(req,res) =>
             image: imageUrl,
             category,
             subCategory,
-            sizes: JSON.parse(sizes),
+            sizes: parsedSizes,
             bestseller: bestseller === "true" ? true : false,
             stock,
             note,
